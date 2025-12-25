@@ -162,7 +162,7 @@ const Hero = () => {
 
   return (
     <div className="hero">
-      <div className="glass-logo">$WAIT</div>
+      <div className="logo">$WAIT</div>
       <div className="tagline">{currentLine}</div>
     </div>
   );
@@ -182,7 +182,7 @@ const ContractReveal = ({ contractAddress }: { contractAddress: string }) => {
   }, [countdown]);
 
   return (
-    <div className="contract-reveal glass-panel">
+    <div className="contract-reveal section">
       <div className="section-label">CONTRACT ADDRESS</div>
       {!revealed ? (
         <div className="countdown-message">
@@ -285,7 +285,7 @@ const LiveMarketData = () => {
 
   if (loading) {
     return (
-      <div className="market-data glass-panel">
+      <div className="market-data section">
         <div className="loading-message">Syncing market data...</div>
       </div>
     );
@@ -294,34 +294,34 @@ const LiveMarketData = () => {
   if (!marketData) return null;
 
   return (
-    <div className="market-data glass-panel">
+    <div className="market-data section">
       <div className="section-label">CURRENT STATE</div>
       <div className="data-grid">
-        <div className="glass-card">
+        <div className="data-item">
           <div className="data-label">PRICE</div>
           <div className="data-value">${parseFloat(marketData.priceUsd).toFixed(8)}</div>
         </div>
-        <div className="glass-card">
+        <div className="data-item">
           <div className="data-label">LIQUIDITY</div>
           <div className="data-value">${parseInt(marketData.liquidity?.usd || 0).toLocaleString()}</div>
         </div>
-        <div className="glass-card">
+        <div className="data-item">
           <div className="data-label">24H VOLUME</div>
           <div className="data-value">${parseInt(marketData.volume?.h24 || 0).toLocaleString()}</div>
         </div>
-        <div className="glass-card">
+        <div className="data-item">
           <div className="data-label">FDV</div>
           <div className="data-value">${parseInt(marketData.fdv || 0).toLocaleString()}</div>
         </div>
-        <div className="glass-card">
+        <div className="data-item">
           <div className="data-label">24H CHANGE</div>
           <div className="data-value" style={{ 
-            color: marketData.priceChange?.h24 > 0 ? '#60a5fa' : '#94a3b8'
+            opacity: marketData.priceChange?.h24 > 0 ? 0.8 : 0.5 
           }}>
             {marketData.priceChange?.h24 > 0 ? '+' : ''}{parseFloat(marketData.priceChange?.h24 || 0).toFixed(2)}%
           </div>
         </div>
-        <div className="glass-card">
+        <div className="data-item">
           <div className="data-label">TRANSACTIONS (24H)</div>
           <div className="data-value">{parseInt(marketData.txns?.h24?.buys || 0) + parseInt(marketData.txns?.h24?.sells || 0)}</div>
         </div>
@@ -351,7 +351,7 @@ const WaitingRoom = () => {
   }, []);
 
   return (
-    <div className="waiting-room glass-panel">
+    <div className="waiting-room section">
       <div className="counter-label">PROTOCOL UPTIME</div>
       <div className="counter-value">
         <Counter lastEventTimestamp={lastEvent} />
@@ -430,7 +430,7 @@ const DiamondHands = ({ refreshTrigger }: { refreshTrigger: number }) => {
 
   if (loading) {
     return (
-      <div className="diamond-hands glass-panel">
+      <div className="diamond-hands section">
         <div className="section-label">The chain remembers who waited.</div>
         <div className="loading-message">Verifying patience on-chain...</div>
       </div>
@@ -440,7 +440,7 @@ const DiamondHands = ({ refreshTrigger }: { refreshTrigger: number }) => {
   const sortedProof = holders.length > 0 ? holders : [...proofData].sort((a, b) => b.daysHeld - a.daysHeld);
 
   return (
-    <div className="diamond-hands glass-panel">
+    <div className="diamond-hands section">
       <div className="section-label">The chain remembers who waited.</div>
       <table className="proof-table">
         <tbody>
@@ -500,7 +500,7 @@ const DecayScore = () => {
 
   if (loading) {
     return (
-      <div className="decay-score glass-panel">
+      <div className="decay-score section">
         <div className="section-label">FAILURES RECORDED</div>
         <div className="loading-message">Scanning exit events...</div>
       </div>
@@ -508,24 +508,24 @@ const DecayScore = () => {
   }
 
   return (
-    <div className="decay-score glass-panel">
+    <div className="decay-score section">
       <div className="section-label">FAILURES RECORDED</div>
       <div className="subsection-label">Sell activity tracked</div>
       
       <div className="sell-stats-grid">
-        <div className="glass-card">
+        <div className="stat-item">
           <div className="stat-label">LAST 5 MINUTES</div>
           <div className="stat-value">{sellStats.last5m} sells</div>
         </div>
-        <div className="glass-card">
+        <div className="stat-item">
           <div className="stat-label">LAST HOUR</div>
           <div className="stat-value">{sellStats.last1h} sells</div>
         </div>
-        <div className="glass-card">
+        <div className="stat-item">
           <div className="stat-label">LAST 6 HOURS</div>
           <div className="stat-value">{sellStats.last6h} sells</div>
         </div>
-        <div className="glass-card">
+        <div className="stat-item">
           <div className="stat-label">LAST 24 HOURS</div>
           <div className="stat-value">{sellStats.last24h} sells</div>
         </div>
@@ -545,7 +545,7 @@ const DecayScore = () => {
 
 const Logbook = () => {
   return (
-    <div className="logbook glass-panel">
+    <div className="logbook section">
       <div className="section-label">TEMPORAL RECORD</div>
       <div className="log-entries">
         {logsData.map(log => (
@@ -584,167 +584,48 @@ const WaitProtocol = () => {
         }
 
         body {
-          background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1419 100%);
-          color: #e0e7ff;
-          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+          background: #0f172a;
+          color: #e2e8f0;
+          font-family: 'Courier New', Courier, monospace;
           font-size: 14px;
           line-height: 1.6;
-          min-height: 100vh;
-          position: relative;
-          overflow-x: hidden;
-        }
-
-        body::before {
-          content: '';
-          position: fixed;
-          top: -50%;
-          left: -50%;
-          width: 200%;
-          height: 200%;
-          background: 
-            radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
-            radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
-            radial-gradient(circle at 40% 20%, rgba(96, 165, 250, 0.05) 0%, transparent 50%);
-          animation: gradientShift 20s ease infinite;
-          z-index: 0;
-        }
-
-        @keyframes gradientShift {
-          0%, 100% { transform: translate(0, 0) rotate(0deg); }
-          50% { transform: translate(10%, 10%) rotate(5deg); }
         }
 
         .terminal-frame {
-          max-width: 900px;
+          max-width: 800px;
           margin: 0 auto;
           padding: 120px 40px;
           min-height: 100vh;
-          position: relative;
-          z-index: 1;
         }
 
         .hero {
           margin-bottom: 200px;
           text-align: center;
-          position: relative;
         }
 
-        .glass-logo {
-          font-size: 72px;
+        .logo {
+          font-size: 48px;
           letter-spacing: 0.3em;
-          margin-bottom: 50px;
-          font-weight: 700;
-          background: linear-gradient(135deg, 
-            rgba(255, 255, 255, 0.95) 0%,
-            rgba(147, 197, 253, 0.9) 30%,
-            rgba(255, 255, 255, 0.85) 60%,
-            rgba(191, 219, 254, 0.9) 100%
-          );
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          filter: drop-shadow(0 0 40px rgba(96, 165, 250, 0.5))
-                  drop-shadow(0 8px 32px rgba(59, 130, 246, 0.3));
-          text-shadow: 
-            0 0 80px rgba(147, 197, 253, 0.5),
-            0 0 120px rgba(96, 165, 250, 0.3);
-          position: relative;
-          animation: glassShimmer 8s ease-in-out infinite;
-        }
-
-        @keyframes glassShimmer {
-          0%, 100% {
-            filter: drop-shadow(0 0 40px rgba(96, 165, 250, 0.5))
-                    drop-shadow(0 8px 32px rgba(59, 130, 246, 0.3));
-          }
-          50% {
-            filter: drop-shadow(0 0 60px rgba(96, 165, 250, 0.7))
-                    drop-shadow(0 8px 48px rgba(59, 130, 246, 0.5));
-          }
-        }
-
-        .tagline {
-          font-size: 15px;
-          opacity: 0.6;
-          letter-spacing: 0.15em;
-          text-transform: uppercase;
+          margin-bottom: 40px;
           font-weight: 300;
         }
 
-        .glass-panel {
-          background: linear-gradient(135deg, 
-            rgba(255, 255, 255, 0.03) 0%,
-            rgba(255, 255, 255, 0.01) 100%
-          );
-          backdrop-filter: blur(20px);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          border-radius: 24px;
-          padding: 60px 50px;
-          margin-bottom: 100px;
-          box-shadow: 
-            0 8px 32px rgba(0, 0, 0, 0.3),
-            inset 0 1px 0 rgba(255, 255, 255, 0.1),
-            0 0 80px rgba(96, 165, 250, 0.05);
-          position: relative;
-          overflow: hidden;
+        .tagline {
+          font-size: 14px;
+          opacity: 0.7;
+          letter-spacing: 0.05em;
         }
 
-        .glass-panel::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(90deg, 
-            transparent 0%,
-            rgba(255, 255, 255, 0.03) 50%,
-            transparent 100%
-          );
-          animation: shimmer 8s infinite;
-        }
-
-        @keyframes shimmer {
-          0% { left: -100%; }
-          50%, 100% { left: 200%; }
-        }
-
-        .glass-card {
-          background: linear-gradient(135deg, 
-            rgba(255, 255, 255, 0.05) 0%,
-            rgba(255, 255, 255, 0.02) 100%
-          );
-          backdrop-filter: blur(10px);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          border-radius: 16px;
-          padding: 32px 24px;
-          text-align: center;
-          transition: all 0.4s ease;
-          box-shadow: 
-            0 4px 16px rgba(0, 0, 0, 0.2),
-            inset 0 1px 0 rgba(255, 255, 255, 0.1);
-        }
-
-        .glass-card:hover {
-          background: linear-gradient(135deg, 
-            rgba(255, 255, 255, 0.08) 0%,
-            rgba(255, 255, 255, 0.04) 100%
-          );
-          border-color: rgba(96, 165, 250, 0.3);
-          box-shadow: 
-            0 8px 32px rgba(59, 130, 246, 0.2),
-            inset 0 1px 0 rgba(255, 255, 255, 0.15);
-          transform: translateY(-2px);
+        .section {
+          margin-bottom: 200px;
         }
 
         .section-label {
-          font-size: 10px;
-          opacity: 0.4;
-          letter-spacing: 0.25em;
+          font-size: 11px;
+          opacity: 0.5;
+          letter-spacing: 0.2em;
           margin-bottom: 40px;
           text-transform: uppercase;
-          text-align: center;
-          font-weight: 500;
         }
 
         .waiting-room {
@@ -753,101 +634,66 @@ const WaitProtocol = () => {
 
         .counter-label {
           font-size: 10px;
-          opacity: 0.35;
+          opacity: 0.4;
           letter-spacing: 0.3em;
-          margin-bottom: 24px;
-          text-transform: uppercase;
-          font-weight: 500;
+          margin-bottom: 20px;
         }
 
         .counter-value {
-          font-size: 32px;
+          font-size: 24px;
           margin-bottom: 60px;
           letter-spacing: 0.1em;
-          font-weight: 300;
-          color: #93c5fd;
-          text-shadow: 0 0 40px rgba(147, 197, 253, 0.4);
         }
 
         .system-message {
-          font-size: 13px;
+          font-size: 12px;
           opacity: 0.5;
-          font-weight: 300;
         }
 
         .proof-table {
           width: 100%;
-          border-collapse: separate;
-          border-spacing: 0 12px;
+          border-collapse: collapse;
         }
 
         .proof-table td {
-          padding: 16px 20px;
+          padding: 12px 0;
+          border-bottom: 1px solid rgba(255,255,255,0.1);
           font-size: 13px;
-          background: linear-gradient(135deg, 
-            rgba(255, 255, 255, 0.03) 0%,
-            rgba(255, 255, 255, 0.01) 100%
-          );
-          border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .proof-table tr td:first-child {
-          border-radius: 12px 0 0 12px;
-          border-right: none;
-        }
-
-        .proof-table tr td:last-child {
-          border-radius: 0 12px 12px 0;
-          border-left: none;
-        }
-
-        .proof-table tr td:nth-child(2) {
-          border-left: none;
-          border-right: none;
         }
 
         .proof-table td:first-child {
           opacity: 0.6;
-          font-weight: 500;
         }
 
         .proof-table td:nth-child(2) {
           text-align: center;
-          color: #93c5fd;
-          font-weight: 500;
         }
 
         .proof-table td:last-child {
           text-align: right;
           opacity: 0.4;
           font-size: 11px;
-          text-transform: uppercase;
-          letter-spacing: 0.1em;
         }
 
         .log-entries {
           display: flex;
           flex-direction: column;
-          gap: 24px;
+          gap: 20px;
         }
 
         .log-entry {
           font-size: 12px;
           opacity: 0.6;
-          padding: 12px 0;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-          font-weight: 300;
         }
 
         .log-timestamp {
           opacity: 0.4;
-          margin-right: 16px;
-          font-size: 11px;
+          margin-right: 12px;
         }
 
         .log-divider {
-          opacity: 0.2;
-          margin-right: 16px;
+          opacity: 0.3;
+          margin-right: 12px;
         }
 
         .log-text {
@@ -856,139 +702,161 @@ const WaitProtocol = () => {
 
         .contract-reveal {
           text-align: center;
-          margin-bottom: 100px;
+          margin-bottom: 200px;
         }
 
         .countdown-message {
           font-size: 14px;
           opacity: 0.5;
-          letter-spacing: 0.1em;
-          font-weight: 300;
+          letter-spacing: 0.05em;
         }
 
         .contract-address {
-          font-size: 12px;
+          font-size: 11px;
           opacity: 0.8;
           letter-spacing: 0.1em;
           word-break: break-all;
-          padding: 24px 28px;
-          background: linear-gradient(135deg, 
-            rgba(255, 255, 255, 0.05) 0%,
-            rgba(255, 255, 255, 0.02) 100%
-          );
-          border: 1px solid rgba(96, 165, 250, 0.2);
-          margin-top: 24px;
-          border-radius: 12px;
-          font-weight: 500;
-          box-shadow: 
-            0 4px 16px rgba(0, 0, 0, 0.2),
-            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+          padding: 20px;
+          border: 1px solid rgba(255,255,255,0.1);
+          margin-top: 20px;
+          border-radius: 8px;
         }
 
-        .last-interaction,
-        .block-height {
+        .last-interaction {
           text-align: center;
           font-size: 11px;
-          opacity: 0.25;
+          opacity: 0.3;
           margin-bottom: 100px;
+          letter-spacing: 0.1em;
+        }
+
+        .block-height {
+          text-align: center;
+          font-size: 10px;
+          opacity: 0.25;
+          margin-bottom: 120px;
           letter-spacing: 0.15em;
-          font-weight: 300;
+        }
+
+        .decay-score {
+          margin-top: 100px;
         }
 
         .decay-footnote,
         .log-footnote {
           text-align: center;
-          font-size: 11px;
+          font-size: 10px;
           opacity: 0.3;
           letter-spacing: 0.1em;
-          margin-top: 50px;
+          margin-top: 40px;
           font-style: italic;
-          font-weight: 300;
         }
 
         .subsection-label {
           font-size: 9px;
-          opacity: 0.3;
-          letter-spacing: 0.2em;
-          margin-bottom: 32px;
+          opacity: 0.35;
+          letter-spacing: 0.15em;
+          margin-bottom: 30px;
           text-align: center;
-          text-transform: uppercase;
-          font-weight: 400;
         }
 
-        .sell-stats-grid,
-        .data-grid {
+        .sell-stats-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
-          gap: 24px;
+          gap: 30px 50px;
           margin-bottom: 40px;
         }
 
-        .stat-label,
-        .data-label {
-          font-size: 9px;
-          opacity: 0.35;
-          letter-spacing: 0.25em;
-          margin-bottom: 12px;
-          text-transform: uppercase;
-          font-weight: 500;
+        .stat-item {
+          text-align: center;
+          padding: 20px;
+          border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .stat-value,
-        .data-value {
-          font-size: 20px;
+        .stat-label {
+          font-size: 8px;
+          opacity: 0.35;
+          letter-spacing: 0.2em;
+          margin-bottom: 10px;
+        }
+
+        .stat-value {
+          font-size: 18px;
           letter-spacing: 0.05em;
-          opacity: 0.85;
-          font-weight: 300;
-          color: #bfdbfe;
+          opacity: 0.7;
         }
 
         .sell-volume {
           text-align: center;
-          padding: 24px 0;
+          padding: 20px 0;
           margin-bottom: 20px;
           border-top: 1px solid rgba(255, 255, 255, 0.05);
           border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .volume-label {
-          font-size: 11px;
+          font-size: 10px;
           opacity: 0.4;
           margin-right: 12px;
           letter-spacing: 0.1em;
-          font-weight: 400;
         }
 
         .volume-value {
-          font-size: 16px;
-          opacity: 0.8;
+          font-size: 14px;
+          opacity: 0.7;
           letter-spacing: 0.05em;
-          font-weight: 500;
-          color: #93c5fd;
         }
 
         .loading-message {
           text-align: center;
-          font-size: 13px;
+          font-size: 12px;
           opacity: 0.4;
           letter-spacing: 0.1em;
           padding: 40px 0;
-          font-weight: 300;
+        }
+
+        .market-data {
+          margin-bottom: 200px;
+        }
+
+        .data-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 40px 60px;
+          margin-bottom: 40px;
+        }
+
+        .data-item {
+          text-align: center;
+        }
+
+        .data-label {
+          font-size: 9px;
+          opacity: 0.4;
+          letter-spacing: 0.2em;
+          margin-bottom: 8px;
+        }
+
+        .data-value {
+          font-size: 16px;
+          letter-spacing: 0.05em;
+          opacity: 0.8;
         }
 
         .data-footer {
           text-align: center;
-          font-size: 10px;
-          opacity: 0.25;
+          font-size: 9px;
+          opacity: 0.3;
           letter-spacing: 0.15em;
-          margin-top: 30px;
-          font-weight: 300;
+        }
+
+        .diamond-hands {
+          margin-bottom: 200px;
         }
 
         .cursor {
           display: inline-block;
           transition: opacity 0.1s;
-          color: #60a5fa;
         }
 
         .bottom-cursor {
@@ -997,122 +865,107 @@ const WaitProtocol = () => {
           left: 50%;
           transform: translateX(-50%);
           font-size: 16px;
-          z-index: 100;
         }
 
         .connection-status {
           position: fixed;
-          top: 30px;
-          right: 30px;
+          top: 20px;
+          right: 20px;
           font-size: 9px;
-          letter-spacing: 0.25em;
-          opacity: 0.3;
+          letter-spacing: 0.2em;
+          opacity: 0.4;
           z-index: 100;
-          padding: 12px 20px;
-          background: rgba(0, 0, 0, 0.3);
-          backdrop-filter: blur(10px);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          border-radius: 8px;
-          font-weight: 500;
         }
 
         .status-active {
-          color: #60a5fa;
-          opacity: 0.7;
+          color: #fff;
+          opacity: 0.6;
         }
 
         .status-inactive {
-          color: #94a3b8;
-          opacity: 0.4;
+          color: #fff;
+          opacity: 0.3;
         }
 
         .activity-feed {
           position: fixed;
-          bottom: 100px;
+          bottom: 80px;
           left: 50%;
           transform: translateX(-50%);
           text-align: center;
-          background: linear-gradient(135deg, 
-            rgba(0, 0, 0, 0.6) 0%,
-            rgba(0, 0, 0, 0.4) 100%
-          );
-          backdrop-filter: blur(20px);
-          border: 1px solid rgba(96, 165, 250, 0.3);
-          padding: 16px 32px;
-          animation: slideUp 0.4s ease-out;
-          border-radius: 12px;
-          box-shadow: 
-            0 8px 32px rgba(59, 130, 246, 0.3),
-            inset 0 1px 0 rgba(255, 255, 255, 0.1);
-          z-index: 100;
+          background: rgba(0, 0, 0, 0.8);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          padding: 12px 24px;
+          animation: fadeIn 0.3s ease-in;
+          border-radius: 4px;
         }
 
         .activity-message {
-          font-size: 12px;
+          font-size: 11px;
           letter-spacing: 0.1em;
-          opacity: 0.9;
-          margin-bottom: 6px;
-          font-weight: 400;
+          opacity: 0.8;
+          margin-bottom: 4px;
         }
 
         .activity-timestamp {
-          font-size: 10px;
+          font-size: 9px;
           opacity: 0.4;
           letter-spacing: 0.15em;
         }
 
-        @keyframes slideUp {
-          from {
-            opacity: 0;
-            transform: translateX(-50%) translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-          }
-        }
+        @keyframes fadeIn {from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+    }
 
-        @media (max-width: 768px) {
-          .terminal-frame {
-            padding: 80px 24px;
-          }
+    @media (max-width: 768px) {
+      .terminal-frame {
+        padding: 80px 20px;
+      }
 
-          .glass-logo {
-            font-size: 48px;
-          }
+      .logo {
+        font-size: 36px;
+      }
 
-          .glass-panel {
-            padding: 40px 30px;
-            margin-bottom: 60px;
-          }
+      .section {
+        margin-bottom: 120px;
+      }
 
-          .data-grid,
-          .sell-stats-grid {
-            grid-template-columns: 1fr;
-            gap: 16px;
-          }
-        }
-      `}</style>
+      .data-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
 
-      <Hero />
-      <TransactionMonitor onNewTransaction={handleNewTransaction} />
-      <ActivityFeed recentActivity={recentActivity} />
-      <LastInteraction />
-      <LiveMarketData />
-      <ContractReveal contractAddress="EECACVyG8A1KMD7WtWYSmq3gtp4sjvrxiJNz8vWYbonk" />
-      <BlockHeight />
-      <WaitingRoom />
-      <DiamondHands refreshTrigger={refreshTrigger} />
-      <DecayScore />
-      <Logbook />
+      .sell-stats-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+    }
+  `}</style>
 
-      <div className="bottom-cursor">
-        <Cursor />
-      </div>
-    </div>
-  );
+  <Hero />
+  <TransactionMonitor onNewTransaction={handleNewTransaction} />
+  <ActivityFeed recentActivity={recentActivity} />
+  <LastInteraction />
+  <LiveMarketData />
+  <ContractReveal contractAddress="EECACVyG8A1KMD7WtWYSmq3gtp4sjvrxiJNz8vWYbonk" />
+  <BlockHeight />
+  <WaitingRoom />
+  <DiamondHands refreshTrigger={refreshTrigger} />
+  <DecayScore />
+  <Logbook />
+
+  <div className="bottom-cursor">
+    <Cursor />
+  </div>
+</div>
+);
 };
-
 export default function Home() {
-  return <WaitProtocol />;
+return <WaitProtocol />;
 }
